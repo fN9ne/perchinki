@@ -30,10 +30,41 @@ ibg();;
 // include('dynamic.js');
 // include('animOnScroll.js');;
 $(document).ready(function(){
+	let cookieVal = readCookie("background");
+	function readCookie(name) {
+		let cookieName = name+"=";
+		let split = document.cookie.split(";");
+		for (let i = 0; i < split.length; i++) {
+			let c = split[i];
+			while (c.charAt(0) == "") {
+				c = c.substring(1, c.length);
+			}
+			if (c.indexOf(cookieName) == 0) {
+				return c.substring(cookieName.length, c.length);
+			}
+		}
+	};
+	$(".page__background").css("background-image", `url(${cookieVal})`)
+	$(".header__btn").click(function() {
+		$(this).toggleClass("_active");
+		$(".header__body").toggleClass("_active");
+		$("body").toggleClass("_lock")
+	});
+	function changeTheme() {
+		for (let i = 0; i < $(".theme").length; i++) {
+			$(".theme").eq(i).attr("data-num", i);
+		}
+		$(".theme").click(function() {
+			let picturePath = $(this).find("img").attr("src");
+			$(".page__background").css("background-image", `url(${picturePath})`)
+			document.cookie = `background=${picturePath}; max-age=4804800`;
+		});
+	};
+	changeTheme()
 	function contentFill() {
 		let lesson = $(".day__lesson"),
-				item = $(".day__item"),
-				teacher = $(".day__teacher");
+		item = $(".day__item"),
+		teacher = $(".day__teacher");
 		function changeItems(element, itemLesson, name, surname, newTeacher = 0, newTeacherName = "", newTeacherSurname = "") {
 			for (let i = 0; i < element.length; i++) {
 				element.eq(i).find(item).html(itemLesson);
@@ -74,11 +105,11 @@ $(document).ready(function(){
 			screen.eq(itemQty).addClass("_active");
 			let title = $(".page__title");
 			if (screen.eq(0).hasClass("_active")) title.html("Неделя I")
-			if (screen.eq(1).hasClass("_active")) title.html("Неделя II")
-			if (screen.eq(2).hasClass("_active")) title.html("Расписание звонков")
-			if (screen.eq(3).hasClass("_active")) title.html("Дежурные неделя I")
-			if (screen.eq(4).hasClass("_active")) title.html("Дежурные неделя II")
-		});
+				if (screen.eq(1).hasClass("_active")) title.html("Неделя II")
+					if (screen.eq(2).hasClass("_active")) title.html("Расписание звонков")
+						if (screen.eq(3).hasClass("_active")) title.html("Дежурные неделя I")
+							if (screen.eq(4).hasClass("_active")) title.html("Дежурные неделя II")
+						});
 	};
 	changeScreens();
 })
