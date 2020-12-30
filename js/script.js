@@ -18,111 +18,148 @@ testWebP(function (support) {
 		document.querySelector('body').classList.add('no-webp');
 	}
 });;
-function ibg(){
-	let ibg=document.querySelectorAll(".ibg");
-	for (var i = 0; i < ibg.length; i++) {
-		if(ibg[i].querySelector('img')){
-		ibg[i].style.backgroundImage = 'url('+ibg[i].querySelector('img').getAttribute('src')+')';
-		}
-	}
-}
-ibg();;
+// include('ibg.js');
 // include('dynamic.js');
 // include('animOnScroll.js');;
 $(document).ready(function(){
-	if (document.cookie.length > 0) {
-		let cookieVal = getCookieBack("background");
-		function getCookieBack(name) {
+	let pageTitle = $(".title");
+	function changePageTitle() {
+		if (pageTitle.attr("id") == "week1") pageTitle.html("Неделя I");
+		if (pageTitle.attr("id") == "week2") pageTitle.html("Неделя II");
+		if (pageTitle.attr("id") == "bells") pageTitle.html("Расписание звонков");
+		if (pageTitle.attr("id") == "duty1") pageTitle.html("Дежурные I");
+		if (pageTitle.attr("id") == "duty2") pageTitle.html("Дежурные II");
+	};
+	function creatingItems() {
+		for (let i = 0; i < $(".lesson").length; i++) {
+			$(".lesson").eq(i).append("<div class='lesson__subject'></div><div class='lesson__teacher'><span></span></div>");
+		};
+	};
+	function assignSubject(lesson, subject, name, surname, haveSecondTeacher = 0, secondName = "", secondSurname = "") {
+		lesson.find(".lesson__subject").html(subject);
+		lesson.find(".lesson__teacher").html(`<span>${name}</span> ${surname}`);
+		if (haveSecondTeacher == 1) {
+			lesson.append(`<div class='lesson__teacher'><span>${secondName}</span> ${secondSurname}</div>`)
+		}
+	};
+	function changeScreens() {
+		let item = $(".menu__item");
+		let screen = $(".content__screen");
+		let itemId = ["week1", "week2", "bells", "duty1", "duty2"];
+		for (let i = 0; i < item.length; i++) {
+			item.eq(i).attr("id", itemId[i]);
+		}
+		for (let i = 0; i < item.length; i++) {
+			item.eq(i).attr("data-num", i);
+		};
+		item.click(function() {
+			let itemIdVal = $(this).attr("id");
+			pageTitle.attr("id", itemIdVal);
+			changePageTitle();
+			item.removeClass("_active");
+			$(this).addClass("_active");
+			let itemNum = $(this).attr("data-num");
+			screen.removeClass("_active");
+			screen.eq(itemNum).addClass("_active");
+			document.cookie = `activeScreen=${itemNum}; max-age: 3600`;
+		});
+		function getCookieScreen(name) {
 			name += "=";
 			start = document.cookie.indexOf(name);
 			if (start == -1) return -1;
-			else start = name.length;
-			let end = document.cookie.indexOf(";", start);
-			if (end == -1) end = document.cookie.lenght;
-			return document.cookie.substring(start, end)
+			else start += name.length;
+			end = document.cookie.indexOf(";", start);
+			if (end == -1) end = document.cookie.length;
+			return document.cookie.substring(start, end);
 		};
-		$(".page__background").css("background-image", `url(${cookieVal})`)
-	}
-	$(".header__btn").click(function() {
-		$(this).toggleClass("_active");
-		$(".header__body").toggleClass("_active");
-		$("body").toggleClass("_lock")
-	});
-	function changeTheme() {
-		$(".theme").click(function() {
-			let picturePath = $(this).find("img").attr("src");
-			$(".page__background").css("background-image", `url(${picturePath})`)
-			document.cookie = `background=${picturePath}; max-age=4804800`;
+		let cookieScreen = Number(getCookieScreen("activeScreen"));
+		if (cookieScreen > -1) {
+			item.removeClass("_active");
+			item.eq(cookieScreen).addClass("_active");
+			screen.removeClass("_active");
+			screen.eq(cookieScreen).addClass("_active");
+			let itemIdVal = $(".menu__item._active").attr("id");
+			pageTitle.attr("id", itemIdVal);
+			changePageTitle();
+		};
+	};
+	function openBurger() {
+		let btn = $(".header__burger");
+		let cnt = $(".themes");
+		btn.click(function() {
+			if ($(".changes-btn").hasClass("_active")) {
+				$(".changes-btn").removeClass("_active");
+				$(".changes").removeClass("_active");
+			};
+			cnt.toggleClass("_active")
+			$(this).toggleClass("_active");
 		});
 	};
-	changeTheme()
-	function changeItems(element, itemLesson, name, surname, newTeacher = 0, newTeacherName = "", newTeacherSurname = "") {
-		let lesson = $(".day__lesson");
-		let item = $(".day__item");
-		let teacher = $(".day__teacher");
-		element.find(item).html(itemLesson);
-		element.find(teacher).html(`<span>${name}</span> ${surname}`);
-		if (newTeacher === 1) {
-			element.append(`<div class="day__teacher"><span>${newTeacherName}</span> ${newTeacherSurname}</div>`)
+	function openChanges() {
+		let btn = $(".changes-btn");
+		let cnt = $(".changes");
+		if ($(".changes__content").attr("id") == "nothing") {
+			$(".changes__content").html("<span class='no-changes'>Изменений нет</span>");
 		}
-	};
-	changeItems($('.computing'), "Информатика", "Юлия Геннадьевна", "Белашева");
-	changeItems($(".math"), "Математика", "Тамара Викторовна", "Кравцова");
-	changeItems($(".literature"), "Литература", "Светлана Юрьевна", "Ковалёва");
-	changeItems($(".pe"), "Физическая культура", "Андрей Иванович", "Белашев");
-	changeItems($(".history"), "История", "Ольга Михайловна", "Буденис");
-	changeItems($(".chemistry"), "Химия", "Константин Александрович", "Поморцев");
-	changeItems($(".russian"), "Русский язык", "Светлана Юрьевна", "Ковалёва");
-	changeItems($(".physics"), "Физика", "Ольга Николаевна", "Бреусова");
-	changeItems($(".social"), "Обществознание", "Ольга Михайловна", "Буденис");
-	changeItems($(".ls"), "ОБЖ", "Светлана Петровна", "Прихожая");
-	changeItems($(".native"), "Родной русский", "Юлия Олеговна", "Ориховская");
-	changeItems($(".nothing"), "В общем-то", "Пары нет", "");
-	changeItems($(".biology"), "Биология", "Константин Александрович", "Поморцев");
-	changeItems($(".astronimy"), "Астрономия", "Ольга Николаевна", "Бреусова");
-	changeItems($(".english"), "Английский язык", "Юлия Олеговна", "Ориховская", 1, "Лилия Андреевна", "Пилил");
-	function changeScreens() {
-		let menuItem = $(".menu__item");
-		for (let i = 0; i < menuItem.length; i++) {
-			menuItem.eq(i).attr("data-num", i);
-		};
-		menuItem.click(function() {
-			let screen = $(".screen");
-			let itemQty = $(this).attr("data-num");
-			let title = $(".page__title");
-			document.cookie = `screen=${itemQty}; max-age=3600`
-			menuItem.removeClass("_active");
-			$(this).addClass("_active");
-			screen.removeClass("_active");
-			screen.eq(itemQty).addClass("_active");
-			if (screen.eq(0).hasClass("_active")) title.html("Неделя I")
-				if (screen.eq(1).hasClass("_active")) title.html("Неделя II")
-					if (screen.eq(2).hasClass("_active")) title.html("Расписание звонков")
-						if (screen.eq(3).hasClass("_active")) title.html("Дежурные неделя I")
-							if (screen.eq(4).hasClass("_active")) title.html("Дежурные неделя II")
-						});
-		// document.cookie = "screen=-1;max-age=-1"
-		function getCookieScreen(name) {
+		btn.click(function() {
+			if ($(".header__burger").hasClass("_active")) {
+				$(".header__burger").removeClass("_active");
+				$(".themes").removeClass("_active");
+			};
+			cnt.toggleClass("_active")
+			$(this).toggleClass("_active");
+		});
+	}
+	function themesChange() {
+		let theme = $(".theme");
+		function getCookieBackground(name) {
 			name += "=";
-			beg = document.cookie.indexOf(name);
-			if (beg == -1) return -1;
-			else beg += name.length;
-			let end = document.cookie.indexOf(';', beg);
+			let start = document.cookie.indexOf(name);
+			if (start == -1) return -1;
+			else start += name.length;
+			end = document.cookie.indexOf(";", start);
 			if (end == -1) end = document.cookie.length;
-			return document.cookie.substring(beg, end);
+			return document.cookie.substring(start, end);
 		};
-		let lastScreenActive = Number(getCookieScreen('screen'));
-		if (lastScreenActive > -1) {
-			menuItem.removeClass("_active");
-			let currentItem = menuItem.eq(lastScreenActive);
-			currentItem.addClass("_active");
-			$(".screen").removeClass("_active");
-			$(".screen").eq(lastScreenActive).addClass("_active");
-			if ($(".screen").eq(1).hasClass("_active")) $(".page__title").html("Неделя II")
-			if ($(".screen").eq(2).hasClass("_active")) $(".page__title").html("Расписание звонков")
-			if ($(".screen").eq(3).hasClass("_active")) $(".page__title").html("Дежурные неделя I")
-			if ($(".screen").eq(4).hasClass("_active")) $(".page__title").html("Дежурные неделя II");
+		if (getCookieBackground("bg").length > -1) {
+			$(".background").css("background", `url(${getCookieBackground("bg")}) 50% 50%/cover no-repeat fixed`);
+		};
+		theme.click(function() {
+			let themePath = $(this).find("img").attr("src");
+			document.cookie = `bg=${themePath}; max-age=4804800`;
+			$(".background").css("background", `url(${themePath}) 50% 50%/cover no-repeat fixed`);
+		});
+	};
+	function alertChanges() {
+		dc = $(".day_changes");
+		btn = $(".changes-btn")
+		if (dc.length > 0) {
+			btn.addClass("_new");
+			btn.click(function() {
+				$(this).removeClass("_new");
+			});
 		}
 	};
+	changePageTitle();
+	creatingItems();
+	assignSubject($(".computing"), "Информатика", "Юлия Геннадьевна", "Белашева");
+	assignSubject($(".math"), "Математика", "Тамара Викторовна", "Кравцова");
+	assignSubject($(".literature"), "Литература", "Светлана Юрьевна", "Ковалёва");
+	assignSubject($(".pe"), "Физическая культура", "Андрей Иванович", "Белашев");
+	assignSubject($(".history"), "История", "Ольга Михайловна", "Буденис");
+	assignSubject($(".chemistry"), "Химия", "Константин Александрович", "Поморцев");
+	assignSubject($(".russian"), "Русский язык", "Светлана Юрьевна", "Ковалёва");
+	assignSubject($(".physics"), "Физика", "Ольга Николаевна", "Бреусова");
+	assignSubject($(".social"), "Обществознание", "Ольга Михайловна", "Буденис");
+	assignSubject($(".ls"), "ОБЖ", "Светлана Петровна", "Прихожая");
+	assignSubject($(".native"), "Родной русский", "Юлия Олеговна", "Ориховская");
+	assignSubject($(".nothing"), "В общем-то", "Пары нет", "");
+	assignSubject($(".biology"), "Биология", "Константин Александрович", "Поморцев");
+	assignSubject($(".astronomy"), "Астрономия", "Ольга Николаевна", "Бреусова");
+	assignSubject($(".english"), "Английский язык", "Юлия Олеговна", "Ориховская", 1, "Лилия Андреевна", "Пилил");
 	changeScreens();
+	openBurger();
+	openChanges();
+	themesChange();
+	alertChanges();
 })
