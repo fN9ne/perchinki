@@ -94,6 +94,7 @@ $(document).ready(function(){
 			let screen = $(".screen");
 			let itemQty = $(this).attr("data-num");
 			let title = $(".page__title");
+			document.cookie = `screen=${itemQty}; max-age=3600`
 			menuItem.removeClass("_active");
 			$(this).addClass("_active");
 			screen.removeClass("_active");
@@ -104,6 +105,24 @@ $(document).ready(function(){
 						if (screen.eq(3).hasClass("_active")) title.html("Дежурные неделя I")
 							if (screen.eq(4).hasClass("_active")) title.html("Дежурные неделя II")
 						});
+		// document.cookie = "screen=-1;max-age=-1"
+		function getCookieScreen(name) {
+			name += "=";
+			beg = document.cookie.indexOf(name);
+			if (beg == -1) return -1;
+			else beg += name.length;
+			let end = document.cookie.indexOf(';', beg);
+			if (end == -1) end = document.cookie.length;
+			return document.cookie.substring(beg, end);
+		};
+		let lastScreenActive = Number(getCookieScreen('screen'));
+		if (lastScreenActive > -1) {
+			menuItem.removeClass("_active");
+			let currentItem = menuItem.eq(lastScreenActive);
+			currentItem.addClass("_active");
+			$(".screen").removeClass("_active");
+			$(".screen").eq(lastScreenActive).addClass("_active");
+		}
 	};
 	changeScreens();
 })
