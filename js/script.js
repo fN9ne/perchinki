@@ -31,19 +31,15 @@ ibg();;
 // include('animOnScroll.js');;
 $(document).ready(function(){
 	if (document.cookie.length > 0) {
-		let cookieVal = readCookie("background");
-		function readCookie(name) {
-			let cookieName = name+"=";
-			let split = document.cookie.split(";");
-			for (let i = 0; i < split.length; i++) {
-				let c = split[i];
-				while (c.charAt(0) == "") {
-					c = c.substring(1, c.length);
-				}
-				if (c.indexOf(cookieName) == 0) {
-					return c.substring(cookieName.length, c.length);
-				}
-			}
+		let cookieVal = getCookieBack("background");
+		function getCookieBack(name) {
+			name += "=";
+			start = document.cookie.indexOf(name);
+			if (start == -1) return -1;
+			else start = name.length;
+			let end = document.cookie.indexOf(";", start);
+			if (end == -1) end = document.cookie.lenght;
+			return document.cookie.substring(start, end)
 		};
 		$(".page__background").css("background-image", `url(${cookieVal})`)
 	}
@@ -122,6 +118,10 @@ $(document).ready(function(){
 			currentItem.addClass("_active");
 			$(".screen").removeClass("_active");
 			$(".screen").eq(lastScreenActive).addClass("_active");
+			if ($(".screen").eq(1).hasClass("_active")) $(".page__title").html("Неделя II")
+			if ($(".screen").eq(2).hasClass("_active")) $(".page__title").html("Расписание звонков")
+			if ($(".screen").eq(3).hasClass("_active")) $(".page__title").html("Дежурные неделя I")
+			if ($(".screen").eq(4).hasClass("_active")) $(".page__title").html("Дежурные неделя II");
 		}
 	};
 	changeScreens();
