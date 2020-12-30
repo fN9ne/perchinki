@@ -30,21 +30,23 @@ ibg();;
 // include('dynamic.js');
 // include('animOnScroll.js');;
 $(document).ready(function(){
-	let cookieVal = readCookie("background");
-	function readCookie(name) {
-		let cookieName = name+"=";
-		let split = document.cookie.split(";");
-		for (let i = 0; i < split.length; i++) {
-			let c = split[i];
-			while (c.charAt(0) == "") {
-				c = c.substring(1, c.length);
+	if (document.cookie.length > 0) {
+		let cookieVal = readCookie("background");
+		function readCookie(name) {
+			let cookieName = name+"=";
+			let split = document.cookie.split(";");
+			for (let i = 0; i < split.length; i++) {
+				let c = split[i];
+				while (c.charAt(0) == "") {
+					c = c.substring(1, c.length);
+				}
+				if (c.indexOf(cookieName) == 0) {
+					return c.substring(cookieName.length, c.length);
+				}
 			}
-			if (c.indexOf(cookieName) == 0) {
-				return c.substring(cookieName.length, c.length);
-			}
-		}
-	};
-	$(".page__background").css("background-image", `url(${cookieVal})`)
+		};
+		$(".page__background").css("background-image", `url(${cookieVal})`)
+	}
 	$(".header__btn").click(function() {
 		$(this).toggleClass("_active");
 		$(".header__body").toggleClass("_active");
