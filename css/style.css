@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 .ibg {
   background-position: center;
   background-size: cover;
@@ -250,6 +252,26 @@ body {
           flex: 0 1 33.33%;
   padding: 0 15px;
   margin: 0 0 30px 0;
+}
+
+.day_alert {
+  position: relative;
+}
+
+.day_alert:before {
+  content: 'изменено';
+  position: absolute;
+  top: -10px;
+  left: 5px;
+  -webkit-transform: rotate(-10deg);
+      -ms-transform: rotate(-10deg);
+          transform: rotate(-10deg);
+  background: #F22C3A;
+  color: #fff;
+  padding: 5px;
+  font-size: 18px;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 
 .day_changes {
@@ -855,6 +877,11 @@ body {
         -ms-flex: 0 1 50%;
             flex: 0 1 50%;
   }
+
+  .day_alert:before {
+    left: 10px;
+    font-size: 15px;
+  }
 }
 
 @media (max-width: 768px) {
@@ -909,6 +936,10 @@ body {
 @media (max-width: 425px) {
   .title {
     padding: 10px 30px;
+  }
+
+  .day_alert:before {
+    font-size: 13px;
   }
 
   .changes-btn {
