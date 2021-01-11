@@ -152,10 +152,10 @@ $(document).ready(function(){
 	assignSubject($(".physics"), "Физика", "Ольга Николаевна", "Бреусова");
 	assignSubject($(".social"), "Обществознание", "Ольга Михайловна", "Буденис");
 	assignSubject($(".ls"), "ОБЖ", "Светлана Петровна", "Прихожая");
-	assignSubject($(".native"), "Родной русский", "Юлия Олеговна", "Ориховская");
 	assignSubject($(".nothing"), "В общем-то", "Пары нет", "");
-	assignSubject($(".biology"), "Биология", "Константин Александрович", "Поморцев");
 	assignSubject($(".astronomy"), "Астрономия", "Ольга Николаевна", "Бреусова");
+	assignSubject($(".technology"), "Технология", "Светлана Андреевна", "Ноженко");
+	assignSubject($(".geography"), "География", "Наталья Михайловна", "Колычева");
 	assignSubject($(".english"), "Английский язык", "Юлия Олеговна", "Ориховская", 1, "Лилия Андреевна", "Пилил");
 	changeScreens();
 	openBurger();
