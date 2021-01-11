@@ -122,12 +122,23 @@ $(document).ready(function(){
 			return document.cookie.substring(start, end);
 		};
 		if (getCookieBackground("bg").length > -1) {
-			$(".background").css("background", `url(${getCookieBackground("bg")}) 50% 50%/cover no-repeat fixed`);
-		};
+			if (getCookieBackground("bg").indexOf("img/") > -1) {
+				$(".background").css("background", `url(${getCookieBackground("bg")}) 50% 50%/cover no-repeat fixed`);
+			}
+			if (getCookieBackground("bg").indexOf("rgb") > -1) {
+				$(".background").css("background", getCookieBackground("bg"))
+			}
+		}
 		theme.click(function() {
-			let themePath = $(this).find("img").attr("src");
-			document.cookie = `bg=${themePath}; max-age=4804800`;
-			$(".background").css("background", `url(${themePath}) 50% 50%/cover no-repeat fixed`);
+			if ($(this).find("img").length == 0) {
+				let color = $(this).find("span").css("background-color");
+				$(".background").css("background", color);
+				document.cookie = `bg=${color}; max-age=4804800`;
+			} else {
+				let themePath = $(this).find("img").attr("src");
+				document.cookie = `bg=${themePath}; max-age=4804800`;
+				$(".background").css("background", `url(${themePath}) 50% 50%/cover no-repeat fixed`);
+			}
 		});
 	};
 	function alertChanges() {
