@@ -393,6 +393,21 @@ body {
   transition: 0.3s all linear;
 }
 
+.menu__item_now {
+  position: relative;
+}
+
+.menu__item_now:before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  left: -5px;
+  top: -5px;
+  background: #F22C3A;
+}
+
 .menu__item._active {
   background: rgba(255, 255, 255, 0.35);
   -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -472,7 +487,7 @@ body {
   border-radius: 50%;
   left: -5px;
   top: -5px;
-  background: red;
+  background: #F22C3A;
 }
 
 .changes-btn svg {
@@ -908,6 +923,11 @@ body {
     bottom: 10px;
     margin: 0 10px;
     width: calc(100% - 20px);
+  }
+
+  .menu__item_now:before {
+    width: 15px;
+    height: 15px;
   }
 
   .theme_const {
