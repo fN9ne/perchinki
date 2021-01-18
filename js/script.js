@@ -23,6 +23,32 @@ testWebP(function (support) {
 // include('animOnScroll.js');;
 $(document).ready(function(){
 	let pageTitle = $(".title");
+	let firstMenuItem = $(".menu__item").eq(0);
+	let secretCount;
+	if (getCookieBackground("secretCount") == -1) {
+		console.log("cookies is not found");
+		secretCount = 0;
+	} else {
+		secretCount = getCookieBackground("secretCount");
+	}
+	function secret() {
+		firstMenuItem.attr("data-secret", secretCount);
+		secretCount++;
+	};
+	function secretTheme() {
+		if (firstMenuItem.attr("data-secret") > 249) {
+			$(".theme_secret").removeClass("hide");
+		} else {
+			if (getCookieBackground("bg") == "img/m7.jpg") {
+				$(".background").css("background", "#222")
+			};
+		}
+	};
+	firstMenuItem.click(function() {
+		document.cookie = `secretCount=${secretCount};max-age=48004800;`;
+		secret();
+		secretTheme();
+	});
 	function changePageTitle() {
 		if (pageTitle.attr("id") == "week1") pageTitle.html("Неделя I");
 		if (pageTitle.attr("id") == "week2") pageTitle.html("Неделя II");
@@ -110,17 +136,17 @@ $(document).ready(function(){
 			$(this).toggleClass("_active");
 		});
 	}
+	function getCookieBackground(name) {
+		name += "=";
+		let start = document.cookie.indexOf(name);
+		if (start == -1) return -1;
+		else start += name.length;
+		end = document.cookie.indexOf(";", start);
+		if (end == -1) end = document.cookie.length;
+		return document.cookie.substring(start, end);
+	};
 	function themesChange() {
 		let theme = $(".theme");
-		function getCookieBackground(name) {
-			name += "=";
-			let start = document.cookie.indexOf(name);
-			if (start == -1) return -1;
-			else start += name.length;
-			end = document.cookie.indexOf(";", start);
-			if (end == -1) end = document.cookie.length;
-			return document.cookie.substring(start, end);
-		};
 		if (getCookieBackground("bg").length > -1) {
 			if (getCookieBackground("bg").indexOf("img/") > -1) {
 				$(".background").css("background", `url(${getCookieBackground("bg")}) 50% 50%/cover no-repeat fixed`);
@@ -151,6 +177,7 @@ $(document).ready(function(){
 			});
 		}
 	};
+	secret();
 	changePageTitle();
 	creatingItems();
 	assignSubject($(".computing"), "Информатика", "Юлия Геннадьевна", "Белашева");
@@ -173,4 +200,5 @@ $(document).ready(function(){
 	openChanges();
 	themesChange();
 	alertChanges();
+	secretTheme();
 })

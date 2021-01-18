@@ -680,6 +680,10 @@ body {
   height: 100%;
 }
 
+.theme.hide {
+  display: none;
+}
+
 .theme_mobile {
   -webkit-box-flex: 0;
       -ms-flex: 0 0 130px;
