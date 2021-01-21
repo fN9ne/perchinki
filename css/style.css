@@ -480,6 +480,7 @@
 }
 
 .themes__track {
+  width: 100%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -570,6 +571,7 @@
 }
 
 .game__button img {
+  pointer-events: none;
   width: 100%;
 }
 
