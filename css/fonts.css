@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'icons';
-  src: url("../fonts/icons.woff?vj2em4") format("woff"), url("../img/icons.svg?vj2em4#icons") format("svg");
+  src: url("../fonts/icons.woff?1mimfq") format("woff"), url("../fonts/icons.svg?1mimfq#icons") format("svg");
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -21,14 +21,18 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-bell:before {
+.icon-back:before {
   content: "\e900";
 }
 
-.icon-calendar:before {
+.icon-gamepad:before {
   content: "\e901";
 }
 
-.icon-user:before {
+.icon-calendar:before {
   content: "\e902";
+}
+
+.icon-user:before {
+  content: "\e903";
 }
