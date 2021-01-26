@@ -19,12 +19,13 @@ $(document).ready(function(){
 	lesson = $(".lesson"),
 	tab = $(".tab"),
 	screen = $(".screen"),
-	screensId = ["week1", "week2", "duty1", "duty2"];
+	screensId = ["week1", "week2", "bell", "duty1", "duty2"];
 	/* function's connection */
 	/* function's change the page title */
 function changeTitle() {
 	if (title.attr("id") == "week1") title.find("span").text("Неделя I");
 	if (title.attr("id") == "week2") title.find("span").text("Неделя II");
+	if (title.attr("id") == "bell") title.find("span").text("Звонки");
 	if (title.attr("id") == "duty1") title.find("span").text("Дежурные I");
 	if (title.attr("id") == "duty2") title.find("span").text("Дежурные II");
 };
@@ -42,8 +43,30 @@ function fillLessons(lesson, subject, name, surname, haveSecondTeacher = 0, seco
 };;
 	/* change the page title */
 	changeTitle();
+	/* changes */
+	let changes_btn = $(".changes__btn");
+	let changes_cnt = $(".fixed-container_body");
+	let changes = $(".changes");
+	changes_btn.click(function() {
+		changes_btn.toggleClass("active");
+		changes_cnt.toggleClass("active");
+		changes.toggleClass("active");
+		if (changes_btn.hasClass("alert")) {
+			changes_btn.removeClass("alert");
+		}
+	});
+	/* check changes */
+	if (changes.attr("id") == "nothing") {
+		changes.find(".day").remove();
+		$(".changes__content").html("<span>Изменений нет.</span>")
+	} else {
+		changes_btn.addClass("alert");
+	}
 	/* creating the blocks with lesson's & teacher's names */
-	$(".screen:not(.duty)").find(lesson).each(function() {
+	$(".screen:not(.duty, .bell)").find(lesson).each(function() {
+		$(this).append("<div class='lesson__subject'></div><div class='lesson__teacher'><span></span></div>");
+	});
+	changes.find(lesson).each(function() {
 		$(this).append("<div class='lesson__subject'></div><div class='lesson__teacher'><span></span></div>");
 	});
 	/* assigning an id to tabs */

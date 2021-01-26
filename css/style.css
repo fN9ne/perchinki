@@ -36,8 +36,10 @@
 }
 
 .screens {
-  margin: 20px 0 0;
-  padding: 0 0 60px 0;
+  position: relative;
+  z-index: 2;
+  margin: 40px 0 0;
+  padding: 0 0 80px 0;
   width: 100%;
   -webkit-box-flex: 1;
       -ms-flex: 1 1 auto;
@@ -85,6 +87,12 @@
           flex: 0 1 33.33%;
   padding: 0 10px;
   margin: 0 0 20px 0;
+}
+
+.day_bell {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 50%;
+          flex: 0 1 50%;
 }
 
 .day__container {
@@ -159,6 +167,27 @@
   font-weight: bold;
 }
 
+.time {
+  color: #3cb499;
+  font-weight: bold;
+  font-size: 18px;
+  letter-spacing: 1px;
+}
+
+.time p {
+  color: #fff;
+  display: inline;
+  font-weight: 300;
+}
+
+.change {
+  color: #fff;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 5px 0 0 0;
+  font-size: 14px;
+}
+
 .tabs {
   position: fixed;
   width: 100%;
@@ -169,6 +198,7 @@
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  z-index: 3;
 }
 
 .tabs__container {
@@ -177,6 +207,8 @@
 }
 
 .tabs__content {
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
   background: rgba(60, 74, 104, 0.5);
   height: 60px;
   display: -webkit-box;
@@ -212,9 +244,157 @@
   font-size: 18px;
 }
 
+.tab_now {
+  position: relative;
+}
+
+.tab_now:after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  border-radius: 50%;
+  background: #DD5347;
+}
+
 .tab.active {
   background: #46A9AA;
   cursour: default;
+}
+
+.fixed-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  margin: 0 auto 20px;
+}
+
+.fixed-container_body {
+  margin: 0 auto;
+  width: 100%;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  opacity: 0;
+  visibility: hidden;
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+}
+
+.fixed-container_body.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.changes {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  padding: 20px;
+  height: 100%;
+}
+
+.changes.active {
+  z-index: 4;
+}
+
+.changes__btn {
+  -webkit-transition: 0.3s all ease;
+  -o-transition: 0.3s all ease;
+  transition: 0.3s all ease;
+  width: 40px;
+  height: 40px;
+  background: rgba(50, 70, 113, 0.8);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  font-size: 16px;
+  color: #fff;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  cursor: pointer;
+}
+
+.changes__btn.alert {
+  position: relative;
+}
+
+.changes__btn.alert:after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  border-radius: 50%;
+  background: #DD5347;
+}
+
+.changes__btn.active {
+  background: #46a9aa;
+}
+
+.changes__body {
+  width: 100%;
+  background: rgba(50, 70, 113, 0.65);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.changes__body .day {
+  -webkit-box-flex: 0;
+      -ms-flex: 0 1 33.33%;
+          flex: 0 1 33.33%;
+  margin: 0 0 0 0;
+}
+
+.changes__body .day__container {
+  background: #246370;
+}
+
+.changes__content {
+  padding: 20px;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex: 1 1 auto;
+          flex: 1 1 auto;
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  font-weight: bold;
+  font-size: 48px;
+}
+
+@media (min-width: 769px) {
+  .day_bell {
+    max-height: 350px;
+  }
 }
 
 @media (max-width: 1020px) {
@@ -239,6 +419,15 @@
     padding: 0 5px;
   }
 
+  .time {
+    font-size: 16px;
+  }
+
+  .change {
+    font-size: 13px;
+    letter-spacing: 1px;
+  }
+
   .tabs {
     bottom: 10px;
   }
@@ -246,6 +435,21 @@
   .tabs__container {
     padding: 0 10px;
     margin: 0 0 0 0;
+  }
+
+  .fixed-container {
+    padding: 0 0 0 0;
+  }
+
+  .changes {
+    padding: 10px;
+  }
+
+  .changes__content {
+    padding: 10px;
+    font-size: 20px;
+    letter-spacing: 2px;
+    text-align: center;
   }
 }
 
